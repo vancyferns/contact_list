@@ -1,0 +1,149 @@
+/* Root Container */
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9; /* Soft light blue-gray */
+  min-height: 100vh;
+  color: #2c3e50;
+}
+
+/* Logo Styling */
+.logo {
+  height: 5em;
+  padding: 1em;
+  transition: filter 300ms ease;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 1em #6c5ce7);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 1em #00cec9);
+}
+
+/* Logo Animation */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .logo.animate {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Card Style */
+.card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  margin: 2rem 5%;          /* 5% left/right margin */
+  width: 90%;               /* Take 90% of the width */
+  max-width: none;          /* Remove fixed limit if any */
+  box-sizing: border-box;   /* Ensure padding doesn't overflow */
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Table Head */
+th {
+  background-color: #2d3436;
+  color: white;
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+}
+
+/* Table Cells */
+td {
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  color: #34495e;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Buttons */
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #6c5ce7; /* Deep indigo */
+  color: white;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+button:hover {
+  background-color: #5a4bcf;
+}
+
+/* Empty State / Docs */
+.read-the-docs {
+  color: #888;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  td {
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #eee;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  td::before {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    width: 45%;
+    padding-right: 1rem;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #555;
+    content: attr(data-label);
+  }
+}
