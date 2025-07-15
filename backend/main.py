@@ -18,6 +18,12 @@ def add_cors_headers(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
     return response
 
+
+# ✅ Root route
+@app.route("/", methods=["GET"])
+def index():
+    return jsonify({"message": "Welcome to the Contact Manager API!"}), 200
+
 # ✅ Create Contact
 @app.route("/create_contact", methods=["POST", "OPTIONS"])
 def create_contact():
