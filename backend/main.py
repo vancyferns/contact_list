@@ -3,32 +3,26 @@ from config import app, db
 from models import Contact
 from flask_cors import CORS
 from sqlalchemy.exc import IntegrityError
+import os
 
-# ✅ Enable CORS globally with credentials
+# ✅ Enable CORS globally (Allow any frontend)
 CORS(app, supports_credentials=True)
 
-# ✅ Add CORS headers to every response
+# ✅ Add CORS headers to all responses (for dev compatibility)
 @app.after_request
 def add_cors_headers(response):
     origin = request.headers.get('Origin')
-    if origin:
-        response.headers['Access-Control-Allow-Origin'] = origin
-    else:
-        response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = origin or '*'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
     return response
 
-
 # ✅ Create Contact
-@app.route("/create_contact", methods=["GET", "POST", "OPTIONS"])
+@app.route("/create_contact", methods=["POST", "OPTIONS"])
 def create_contact():
     if request.method == "OPTIONS":
         return '', 204
-
-    if request.method == "GET":
-        return jsonify({"message": "This is the contact creation endpoint"}), 200
 
     data = request.get_json(force=True)
     first_name = data.get("firstName")
@@ -43,6 +37,7 @@ def create_contact():
     try:
         db.session.add(new_contact)
         db.session.commit()
+        return jsonify({"message": "User created!"}), 201
     except IntegrityError:
         db.session.rollback()
         return jsonify({"message": "Email already exists"}), 409
@@ -50,19 +45,12 @@ def create_contact():
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
 
-    return jsonify({"message": "User created!"}), 201
-
-
 # ✅ Get All Contacts
-@app.route("/contacts", methods=["GET", "OPTIONS"])
+@app.route("/contacts", methods=["GET"])
 def get_contacts():
-    if request.method == "OPTIONS":
-        return '', 204
-
     contacts = Contact.query.all()
     json_contacts = [c.to_json() for c in contacts]
     return jsonify({"contacts": json_contacts})
-
 
 # ✅ Update Contact
 @app.route("/update_contact/<int:user_id>", methods=["PUT", "OPTIONS"])
@@ -81,15 +69,13 @@ def update_contact(user_id):
 
     try:
         db.session.commit()
+        return jsonify({"message": "Contact updated!"}), 200
     except IntegrityError:
         db.session.rollback()
         return jsonify({"message": "Email already exists"}), 409
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
-
-    return jsonify({"message": "Contact updated!"}), 200
-
 
 # ✅ Delete Contact
 @app.route("/delete_contact/<int:user_id>", methods=["DELETE", "OPTIONS"])
@@ -105,9 +91,9 @@ def delete_contact(user_id):
     db.session.commit()
     return jsonify({"message": "User deleted!"}), 200
 
-
-# ✅ Start App
+# ✅ Production-Ready Run
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    port = int(os.environ.get("PORT", 8000))  # Required for Render
+    app.run(host="0.0.0.0", port=port)
