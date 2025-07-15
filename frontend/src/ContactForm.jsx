@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+// ✅ You can also use import.meta.env.VITE_API_BASE_URL if stored in .env
+const API_BASE_URL = "https://contact-list-9x5p.onrender.com";
+
 const ContactForm = ({ onContactAdded, existingContact = {}, updateCallback }) => {
   const [firstName, setFirstName] = useState(existingContact.firstName || "");
   const [lastName, setLastName] = useState(existingContact.lastName || "");
@@ -27,7 +30,7 @@ const ContactForm = ({ onContactAdded, existingContact = {}, updateCallback }) =
 
     try {
       const response = await fetch(
-        `https://turbo-winner-4x57j4jrjgvhjqjj-8000.app.github.dev/${updating ? `update_contact/${existingContact.id}` : "create_contact"}`,
+        `${API_BASE_URL}/${updating ? `update_contact/${existingContact.id}` : "create_contact"}`,
         {
           method: updating ? "PUT" : "POST",
           headers: {
@@ -40,7 +43,7 @@ const ContactForm = ({ onContactAdded, existingContact = {}, updateCallback }) =
       const message = await response.json();
 
       if (!response.ok) {
-        alert(message.message);
+        alert(message.message || "An error occurred");
       } else {
         alert(updating ? "Contact updated successfully!" : "Contact created successfully!");
         setFirstName("");

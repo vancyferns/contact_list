@@ -1,19 +1,22 @@
 import React from "react";
 
+// ✅ Use the deployed backend URL here or from .env
+const API_BASE_URL = "https://contact-list-9x5p.onrender.com";
+
 const ContactList = ({ contacts, updateContact, updateCallback }) => {
   const onDelete = async (id) => {
     try {
-      const options = {
-        method: "DELETE"
-      };
+      const response = await fetch(`${API_BASE_URL}/delete_contact/${id}`, {
+        method: "DELETE",
+      });
 
-      const response = await fetch(`https://turbo-winner-4x57j4jrjgvhjqjj-8000.app.github.dev/delete_contact/${id}`, options);
-
-      if (response.status === 200) {
+      if (response.ok) {
         alert("Contact deleted successfully!");
         if (updateCallback) updateCallback();
       } else {
-        console.error("Failed to delete contact.");
+        const err = await response.json();
+        console.error("Failed to delete contact:", err.message);
+        alert("Failed to delete contact.");
       }
     } catch (error) {
       alert("Error deleting contact: " + error.message);
@@ -23,7 +26,7 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
   return (
     <div>
       <h2>Contacts</h2>
-      <table border="1" cellPadding="10">
+      <table border="1" cellPadding="10" style={{ width: "100%", textAlign: "left" }}>
         <thead>
           <tr>
             <th>First Name</th>
@@ -35,12 +38,12 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
         <tbody>
           {contacts.map((contact) => (
             <tr key={contact.id}>
-              <td data-label="First Name">{contact.firstName}</td>
-              <td data-label="Last Name">{contact.lastName}</td>
-              <td data-label="Email">{contact.email}</td>
-              <td data-label="Actions">
+              <td>{contact.firstName}</td>
+              <td>{contact.lastName}</td>
+              <td>{contact.email}</td>
+              <td>
                 <button onClick={() => updateContact(contact)}>Update</button>
-                <button onClick={() => onDelete(contact.id)}>Delete</button>
+                <button onClick={() => onDelete(contact.id)} style={{ marginLeft: "10px" }}>Delete</button>
               </td>
             </tr>
           ))}
