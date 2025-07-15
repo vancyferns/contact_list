@@ -86,18 +86,17 @@
 
 <p><strong>Backend Base URL:</strong> <code>https://contact-list-9x5p.onrender.com</code></p>
 
-<h2>💻 Run Locally</h2>
+<h2>💻 Run Locally (Using GitHub Codespaces)</h2>
+<p><strong>Note:</strong> This project was developed inside GitHub Codespaces, so there's no need to manually set up a virtual environment.</p>
 
-<h3>Backend (Flask)</h3>
+<h3>Steps to run backend:</h3>
 <pre><code>
 cd backend
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python main.py
 </code></pre>
 
-<h3>Frontend (React + Vite)</h3>
+<h3>Steps to run frontend:</h3>
 <pre><code>
 cd frontend
 npm install
