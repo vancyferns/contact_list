@@ -110,7 +110,7 @@ npm run dev
 <h2>🙌 Credits</h2>
 <ul>
   <li>Design & Code: <strong>You</strong></li>
-  <li>API Learning: <a href="https://www.youtube.com/@SimpliCode">SimpliCode (YouTube)</a></li>
+  <li>Learning Resource (React+Flask):[ <a href="https://www.youtube.com/@SimpliCode](https://youtu.be/PppslXOR7TA?feature=shared)">youtube video</a></li>
   <li>Hosting: Vercel (Frontend), Render (Backend)</li>
 </ul>
 
